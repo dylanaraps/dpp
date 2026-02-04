@@ -133,6 +133,10 @@ DPP also exposes some information via environment variables.
 
   The version of DPP.
 
+* `DPP_LEVEL`
+
+  The DPP nest level.
+
 
 ## Syntax - Preface
 
