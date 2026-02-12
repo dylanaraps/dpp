@@ -108,6 +108,7 @@ This formula is the same one I use in neofetch and pfetch:
 - https://github.com/dylanaraps/pfetch/blob/master/pfetch#L694
 
 !!
+z=0
 while IFS=:k read -r a b _; do case $a in
   MemTotal) z=$((z + b)) y=$((b)) ;;
      Shmem) z=$((z + b)) ;;
