@@ -49,28 +49,20 @@ str_init(struct s *s, size_t c)
 static inline size_t
 str_grow(struct s *s, size_t l)
 {
-  if (s->e || l > SIZE_MAX - s->l) {
+  if (s->e || l > SIZE_MAX - s->l)
     goto e;
-  }
-
   size_t need = s->l + l;
   size_t cap = s->c;
 
   while (cap < need) {
-    if (cap > SIZE_MAX / 2) {
+    if (cap > SIZE_MAX / 2)
       goto e;
-    }
-
     cap <<= 1;
   }
 
   if (cap != s->c) {
     char *m = realloc(s->m, cap);
-
-    if (!m) {
-      goto e;
-    }
-
+    if (!m) goto e;
     s->m = m;
     s->c = cap;
   }
@@ -91,17 +83,15 @@ str_copy(struct s *s, const char *p, size_t l)
 static inline void
 str_push(struct s *s, const char *p, size_t l)
 {
-  if (str_grow(s, l)) {
+  if (str_grow(s, l))
     str_copy(s, p, l);
-  }
 }
 
 static inline void
 str_push_c(struct s *s, int c)
 {
-  if (str_grow(s, 1)) {
+  if (str_grow(s, 1))
     s->m[s->l++] = c;
-  }
 }
 
 static inline void

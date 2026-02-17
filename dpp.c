@@ -43,15 +43,13 @@ main(int argc, char *argv[])
   int x = EXIT_FAILURE;
   struct s s[1];
 
-  if (!str_init(s, 8192)) {
+  if (!str_init(s, 8192))
     die("error: failed to allocate string: %s\n", strerror(errno));
-  }
 
   const char *sh = xgetenv("DPP_SHELL", DPP_SHELL);
 
-  if (*sh != '/') {
+  if (*sh != '/') 
     die("error: DPP_SHELL must be an absolute path.\n");
-  }
 
   STR_COPY(s, "#!");
   str_push_s(s, sh);
@@ -68,9 +66,8 @@ main(int argc, char *argv[])
   const char *bl = xgetenv("DPP_BLOCK", DPP_BLOCK);
   size_t bll = strlen(bl);
 
-  if (!*bl) {
+  if (!*bl)
     die("error: DPP_BLOCK cannot be empty.\n");
-  }
 
   size_t sta = 0;
   char d[4096];
@@ -84,10 +81,9 @@ main(int argc, char *argv[])
       if (e >= bll && memcmp(d, bl, bll) == 0) {
         o = bll + (d[bll] == ' ');
 
-        if (sta == 1 && e > o) {
+        if (sta == 1 && e > o)
           break;
-
-        } else if (sta == 2) {
+        else if (sta == 2) {
           STR_PUSH(s, DPP_EOF "\n");
           sta = 0;
         }
@@ -103,9 +99,8 @@ main(int argc, char *argv[])
     str_push(s, &d[o], e + n - o);
   }
 
-  if (ferror(stdin)) {
+  if (ferror(stdin))
     die("error: failed to read stdin: %s\n", strerror(errno));
-  }
 
   switch (sta) {
     case 1:  die("error: DPP_BLOCK syntax error.\n");
@@ -113,25 +108,22 @@ main(int argc, char *argv[])
     default: STR_PUSH(s, "\0");
   }
 
-  if (s->e) {
+  if (s->e)
     die("error: failed to grow string.\n");
-  }
 
 #ifdef DPP_COMPILE
   (void) argc, (void) argv, (void) sh;
 
-  if (fwrite(s->m, 1, s->l, stdout) < s->l) {
+  if (fwrite(s->m, 1, s->l, stdout) < s->l)
     die("error: failed to write output: %s\n", strerror(errno));
-  }
 
   x = EXIT_SUCCESS;
 
 #else
   char **c = calloc(argc + 4, sizeof(*c));
 
-  if (!c) {
+  if (!c)
     die("error: failed to allocate argc: %s\n", strerror(errno));
-  }
 
   memcpy(c, (const char *[]){ sh, DPP_SHELL_ARG, s->m }, sizeof(*c) * 3);
   memcpy(&c[3], argv, sizeof(*c) * argc);
