@@ -27,10 +27,10 @@ FLAGS=-O2 -pipe -Wall -Wextra -pedantic $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
 all: dpp dpp-compile
 
 dpp: dpp.c str.h config.h
-	$(CC) $(FLAGS) -o $@ $<
+	$(CC) $(FLAGS) -o dpp dpp.c
 
 dpp-compile: dpp.c str.h config.h
-	$(CC) $(FLAGS) -DDPP_COMPILE -o $@ $<
+	$(CC) $(FLAGS) -DDPP_COMPILE -o dpp dpp.c
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
